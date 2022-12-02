@@ -1,0 +1,35 @@
+name:                aoc-luis-aparicio
+version:             0.0.0.0
+synopsis:            Advent of Code solutions
+description:         All of my Advent of Code solutions
+homepage:            
+license:             
+license-file:        
+author:              Luis Aparicio
+maintainer:          
+category:            
+build-type:          Simple
+cabal-version:       >=1.10
+
+library
+  hs-source-dirs:      src
+  exposed-modules:     One.One
+  build-depends:       base
+  default-language:    Haskell98
+
+executable aoc-solutions
+  hs-source-dirs:      app
+  main-is:             Main.hs
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  build-depends:       base <= 5
+                     , aoc-luis-aparicio
+  default-language:    Haskell98
+
+test-suite tests
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Spec.hs
+  build-depends:       base <= 5
+                     , aoc-luis-aparicio
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell98
