@@ -13,7 +13,7 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:      src
-  exposed-modules:     One.One
+  exposed-modules:     One.One, Two.Two
   build-depends:       base
   default-language:    Haskell98
 
