@@ -8,15 +8,25 @@ import qualified Data.List as List
 
 main :: IO ()
 main = do
-    handle <- openFile "src/two/two_input.txt" ReadMode  
-    file <- hGetContents' handle
-    let lines = String.lines file
-        rounds = map Two.parseRound lines
-        totalScore = sum $ map (\(Two.Round i _ _) -> i) rounds
-    print totalScore
-    hClose handle  
-    
 -- 2-2
+    -- handle <- openFile "src/two/two_input.txt" ReadMode  
+    -- file <- hGetContents' handle
+    -- let lines = String.lines file
+    --     rounds = map Two.parseRoundTrue lines
+    --     totalScore = sum $ map (\(Two.Round i _ _) -> i) rounds
+    -- print totalScore
+    -- hClose handle  
+
+-- 2-1
+    -- handle <- openFile "src/two/two_input.txt" ReadMode  
+    -- file <- hGetContents' handle
+    -- let lines = String.lines file
+    --     rounds = map Two.parseRound lines
+    --     totalScore = sum $ map (\(Two.Round i _ _) -> i) rounds
+    -- print totalScore
+    -- hClose handle  
+    
+-- 1-2
     -- handle <- openFile "src/one/one_input.txt" ReadMode  
     -- file <- hGetContents' handle
     -- let lines = String.lines file
