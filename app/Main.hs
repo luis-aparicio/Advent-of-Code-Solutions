@@ -19,30 +19,54 @@ import Data.Function ( on )
 
 main :: IO ()
 main = do
--- 5-2
-    handle <- openFile "src/five/five_input.txt" ReadMode  
+-- 6-2
+    handle <- openFile "src/six/six_input.txt" ReadMode  
     file <- hGetContents' handle
-    let lines = String.lines file
-        initStackStrings = take 8 lines
-        -- 2, 6, 10, 14, 18, 22, 26, 30, 34 are the letter indexes for a line [T] [L] [Z] [R] [C] [Q] [V] [P] [H]
-        emptyStacksMap = map (\x -> (x, Five.Stack [])) [2, 6, 10, 14, 18, 22, 26, 30, 34]
-        stacks = foldr (Five.mkStack 1) emptyStacksMap initStackStrings
-        -- the same as stacks but using (1, 2, 3, 4, 5 ...) instead of (2, 6, 10, 14, 18 ... )
-        indexedStacks = snd $ foldr (\(_, curr) (i, acc) -> (pred i, (pred i, curr) : acc) ) (10, []) stacks 
-        instructions = drop 8 lines
-        final = foldr (\ curr acc -> do 
-                        let numbers = map read . words $ filter (\x -> Char.isNumber x || Char.isSpace x) curr
-                        case numbers of 
-                            [num, from, to] ->  
-                                let groupToMove = maybe (error "groupToMove not found") (\(Five.Stack s) -> take num s) $ lookup from acc 
-                                in  map (\(ix, Five.Stack curr) -> if from == ix 
-                                        then (ix, Five.Stack $ drop num curr) 
-                                        else if to == ix 
-                                            then (ix, Five.Stack $ groupToMove ++ curr) else (ix, Five.Stack curr)) acc
-                            _ -> acc 
-                        ) indexedStacks (reverse instructions)
-    print (concatMap (take 1 . Five.stackToList . snd) final)
+    let (_, _, final) = foldr (\curr (acc, i, final) -> let
+            next = curr : take 13 acc
+            size = length next 
+            in  if size >= 14 && length (List.nub next) == size && final == 0 
+                then (curr : acc, succ i, succ i ) 
+                else (curr : acc, succ i, final)) ([], 0, 0) (reverse file)
+    print final
     hClose handle
+
+-- 6-1
+    -- handle <- openFile "src/six/six_input.txt" ReadMode  
+    -- file <- hGetContents' handle
+    -- let (_, _, final) = foldr (\curr (acc, i, final) -> let
+    --         next = curr : take 3 acc
+    --         size = length next 
+    --         in  if size >= 4 && length (List.nub next) == size && final == 0 
+    --             then (curr : acc, succ i, succ i ) 
+    --             else (curr : acc, succ i, final)) ([], 0, 0) (reverse file)
+    -- print final
+    -- hClose handle
+
+-- 5-2
+    -- handle <- openFile "src/five/five_input.txt" ReadMode  
+    -- file <- hGetContents' handle
+    -- let lines = String.lines file
+    --     initStackStrings = take 8 lines
+    --     -- 2, 6, 10, 14, 18, 22, 26, 30, 34 are the letter indexes for a line [T] [L] [Z] [R] [C] [Q] [V] [P] [H]
+    --     emptyStacksMap = map (\x -> (x, Five.Stack [])) [2, 6, 10, 14, 18, 22, 26, 30, 34]
+    --     stacks = foldr (Five.mkStack 1) emptyStacksMap initStackStrings
+    --     -- the same as stacks but using (1, 2, 3, 4, 5 ...) instead of (2, 6, 10, 14, 18 ... )
+    --     indexedStacks = snd $ foldr (\(_, curr) (i, acc) -> (pred i, (pred i, curr) : acc) ) (10, []) stacks 
+    --     instructions = drop 8 lines
+    --     final = foldr (\ curr acc -> do 
+    --                     let numbers = map read . words $ filter (\x -> Char.isNumber x || Char.isSpace x) curr
+    --                     case numbers of 
+    --                         [num, from, to] ->  
+    --                             let groupToMove = maybe (error "groupToMove not found") (\(Five.Stack s) -> take num s) $ lookup from acc 
+    --                             in  map (\(ix, Five.Stack curr) -> if from == ix 
+    --                                     then (ix, Five.Stack $ drop num curr) 
+    --                                     else if to == ix 
+    --                                         then (ix, Five.Stack $ groupToMove ++ curr) else (ix, Five.Stack curr)) acc
+    --                         _ -> acc 
+    --                     ) indexedStacks (reverse instructions)
+    -- print (concatMap (take 1 . Five.stackToList . snd) final)
+    -- hClose handle
 
 -- 5-1
     -- handle <- openFile "src/five/five_input.txt" ReadMode  
